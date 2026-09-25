@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bien utiliser les assistants IA en toute sécurité – AMTIC</title>
+<style>
+:root{--navy:#0a1f5c;--blue:#1646d0;--sky:#3d8bff;--yellow:#f5b800;--bg:#f4f7ff;--good:#17a34a;--bad:#dc2626;--mid:#d97706}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#10214d;min-height:100vh}
+header{background:linear-gradient(90deg,#071642,#0f2f8f);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.brand{font-weight:900;font-style:italic;white-space:nowrap}.brand span{color:var(--yellow)}
+.gprog{flex:1;min-width:160px;display:flex;align-items:center;gap:10px;font-size:.9rem}
+.gbar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+.gbar div{height:100%;background:var(--yellow);width:0;transition:.4s}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px)}
+nav{background:#fff;border-right:1px solid #dfe6f7;padding:16px 10px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+nav button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:none;background:none;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:.95rem;color:var(--navy);font-weight:600;margin-bottom:4px}
+nav button:hover{background:#eef3ff}
+nav button.on{background:var(--navy);color:#fff}
+nav button .num{min-width:26px;height:26px;border-radius:50%;background:#e2e8f7;color:var(--navy);display:grid;place-items:center;font-size:.8rem;font-weight:900}
+nav button.on .num{background:var(--yellow)}
+nav button.done .num{background:var(--good);color:#fff}
+main{padding:30px 5vw 60px;max-width:1150px}
+.mod{display:none;flex-direction:column;gap:18px;animation:in .35s ease}
+.mod.on{display:flex}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;align-self:flex-start;background:var(--yellow);color:var(--navy);font-weight:900;font-style:italic;text-transform:uppercase;padding:5px 14px;transform:skewX(-10deg);font-size:.9rem}
+h1{font-size:clamp(1.9rem,4vw,3.1rem);font-weight:900;font-style:italic;text-transform:uppercase;color:var(--navy);line-height:1.05}
+h1 em,h2 em{color:var(--blue)}
+h2{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:900;font-style:italic;color:var(--navy);line-height:1.15}
+h3{font-size:1.08rem;color:var(--navy);margin-bottom:6px}
+p,li{font-size:1.02rem;line-height:1.55}
+.lead{font-size:1.15rem;color:#1c3a8a;font-style:italic;font-weight:600}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 5px 18px rgba(10,31,92,.07);border-left:5px solid var(--blue)}
+.card.y{border-left-color:var(--yellow)}.card.r{border-left-color:var(--bad)}.card.g{border-left-color:var(--good)}
+.card .ico{font-size:1.7rem;margin-bottom:4px}
+.card ul{padding-left:18px}
+.badge{display:inline-block;font-size:.78rem;font-weight:800;padding:2px 9px;border-radius:20px;background:#e8efff;color:var(--blue);margin:2px 4px 2px 0}
+.callout{background:linear-gradient(90deg,var(--navy),var(--blue));color:#fff;border-radius:14px;padding:15px 20px;font-weight:600}
+.callout b{color:var(--yellow)}
+.btn{border:none;cursor:pointer;border-radius:9px;padding:9px 16px;font-weight:800;font-size:.95rem;background:var(--yellow);color:var(--navy);transition:.15s}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn.b{background:var(--blue);color:#fff}
+.btn.s{padding:5px 10px;font-size:.82rem}
+.navbtns{display:flex;justify-content:space-between;margin-top:14px}
+select,textarea,input[type=text]{width:100%;border:2px solid #c9d6f5;border-radius:10px;padding:9px 11px;font-size:1rem;font-family:inherit;color:var(--navy);background:#fff}
+textarea{resize:vertical;min-height:80px}
+label{font-weight:700;color:var(--navy);display:block;margin:10px 0 4px;font-size:.95rem}
+.two{display:grid;gap:18px;grid-template-columns:1fr 1fr;align-items:start}
+.out{background:#0b1a4a;color:#e6edff;border-radius:12px;padding:14px;white-space:pre-wrap;font-size:.98rem;line-height:1.55;min-height:120px}
+.out .ph{background:var(--yellow);color:var(--navy);font-weight:800;border-radius:4px;padding:0 4px}
+.risk{border-radius:12px;padding:12px 14px;font-weight:600}
+.risk.v{background:#dcfce7;color:#14532d}.risk.o{background:#fef3c7;color:#78350f}.risk.r{background:#fee2e2;color:#7f1d1d}
+.q{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opt{border:2px solid #c9d6f5;background:#f7f9ff;border-radius:10px;padding:9px 14px;cursor:pointer;font-size:.98rem;font-weight:600;color:var(--navy);text-align:left}
+.opt:hover{border-color:var(--blue)}
+.opt.good{background:#dcfce7;border-color:var(--good)}.opt.bad{background:#fee2e2;border-color:var(--bad)}.opt.mid{background:#fef3c7;border-color:var(--mid)}
+.fb{display:none;margin-top:10px;padding:10px 12px;border-radius:8px}
+.fb.show{display:block}.fb.good{background:#ecfdf3;color:#14532d}.fb.bad{background:#fef2f2;color:#7f1d1d}.fb.mid{background:#fffbeb;color:#78350f}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp .card h3{display:flex;gap:6px;align-items:center}
+.code{background:#f1f5ff;border:1px dashed #9db4ef;border-radius:10px;padding:10px 12px;font-family:Consolas,monospace;font-size:.92rem;white-space:pre-wrap;color:#10214d}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{border:2px solid #c9d6f5;background:#fff;border-radius:30px;padding:8px 16px;cursor:pointer;font-weight:800;color:var(--navy)}
+.tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pane{display:none}.pane.on{display:block}
+.chk{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.chk li{background:#fff;border-radius:10px;padding:10px 14px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer}
+.chk li input{width:22px;height:22px;accent-color:var(--good);flex-shrink:0;margin-top:2px;cursor:pointer}
+.chk li.ok{background:#f0fdf4}
+.chk small{display:block;color:#475569;font-size:.88rem}
+.pbar{height:10px;background:#e2e8f7;border-radius:5px;overflow:hidden;margin-top:8px}
+.pbar div{height:100%;background:var(--good);width:0;transition:.3s}
+.answer{background:#fff;border-radius:14px;padding:18px;box-shadow:0 5px 18px rgba(0,0,0,.08);line-height:1.9;font-size:1.05rem;border-top:5px solid var(--sky)}
+.sent{cursor:pointer;border-bottom:2px dotted #94a3b8;padding:1px 0}
+.sent:hover{background:#eef3ff}
+.sent.ok{background:#dcfce7;border-bottom-color:var(--good)}
+.sent.ko{background:#fee2e2;border-bottom-color:var(--bad)}
+.hl{list-style:none;display:flex;flex-direction:column;gap:6px}
+.hl li{background:#fff;border-left:4px solid var(--blue);border-radius:8px;padding:8px 12px}
+.lib{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.lib .card .vig{margin-top:8px;font-size:.92rem;background:#fff7e0;border-radius:8px;padding:7px 10px}
+.score{font-size:1.3rem;font-weight:900;color:var(--blue)}
+.memo li{list-style:none;padding:9px 0 9px 38px;position:relative;border-bottom:1px dashed #c9d6f5}
+.memo li b{color:var(--blue)}
+.memo li::before{counter-increment:m;content:counter(m);position:absolute;left:0;top:7px;width:28px;height:28px;border-radius:50%;background:var(--navy);color:var(--yellow);text-align:center;line-height:28px;font-weight:900;font-size:.9rem}
+.memo{counter-reset:m}
+.hint{font-size:.88rem;color:#475569}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:30px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:20}
+.toast.show{opacity:1}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e5ebf8;font-size:.95rem;vertical-align:top}
+th{background:var(--navy);color:#fff}
+@media(max-width:860px){.layout{grid-template-columns:1fr}nav{position:static;height:auto;display:flex;overflow-x:auto;gap:6px;padding:8px}nav button{white-space:nowrap;width:auto;margin:0}.two,.cmp{grid-template-columns:1fr}main{padding:20px 16px 50px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">AMTIC · <span>BIEN UTILISER L'IA</span></div>
+  <div class="gprog"><span id="gtxt">0 / 9 modules</span><div class="gbar"><div id="gbar"></div></div></div>
+</header>
+<div class="layout">
+<nav id="nav"></nav>
+<main>
+
+<!-- 0 -->
+<section class="mod" data-t="Introduction">
+  <span class="tag">Micro-learning</span>
+  <h1>Bien utiliser <em>Claude, ChatGPT, Gemini</em> & Cie<br>sans exposer ses données</h1>
+  <p class="lead">Un assistant IA est un stagiaire brillant, rapide… mais bavard et parfois inventif. Ce cours vous apprend à bien le briefer, à le régler et à vérifier son travail.</p>
+  <div class="grid">
+    <div class="card y"><div class="ico">🎯</div><h3>Objectif 1</h3><p>Choisir le bon outil selon la tâche.</p></div>
+    <div class="card y"><div class="ico">✍️</div><h3>Objectif 2</h3><p>Écrire des prompts efficaces… et sécurisés.</p></div>
+    <div class="card y"><div class="ico">⚙️</div><h3>Objectif 3</h3><p>Régler la confidentialité de chaque outil.</p></div>
+    <div class="card y"><div class="ico">🔍</div><h3>Objectif 4</h3><p>Vérifier les réponses avant de les utiliser.</p></div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section class="mod" data-t="Panorama des outils">
+  <span class="tag">Module 1</span>
+  <h2>Qui fait <em>quoi ?</em></h2>
+  <div class="grid">
+    <div class="card"><h3>💬 ChatGPT <span class="badge">OpenAI</span></h3><p>Le plus polyvalent : rédaction, analyse de fichiers, images, voix, recherche web.</p></div>
+    <div class="card"><h3>📚 Claude <span class="badge">Anthropic</span></h3><p>Très à l'aise avec les longs documents, la rédaction nuancée, l'analyse et le code.</p></div>
+    <div class="card"><h3>🔷 Gemini <span class="badge">Google</span></h3><p>Intégré à Gmail, Docs, Drive et Android ; s'appuie sur la recherche Google.</p></div>
+    <div class="card"><h3>🪟 Copilot <span class="badge">Microsoft</span></h3><p>Dans Word, Excel, Outlook et Teams, surtout avec un compte professionnel Microsoft 365.</p></div>
+    <div class="card"><h3>🟢 Meta AI <span class="badge">Meta</span></h3><p>Directement dans WhatsApp, Facebook et Instagram. Pratique, mais à réserver aux questions sans données personnelles.</p></div>
+    <div class="card"><h3>🔎 Perplexity</h3><p>Moteur de réponse qui cite ses sources : idéal pour la recherche d'informations.</p></div>
+    <div class="card"><h3>📓 NotebookLM <span class="badge">Google</span></h3><p>Répond uniquement à partir des documents que vous lui donnez : parfait pour réviser ou synthétiser.</p></div>
+    <div class="card"><h3>🇪🇺 Le Chat <span class="badge">Mistral AI</span></h3><p>Assistant européen, très bon en français.</p></div>
+  </div>
+  <h2 style="margin-top:10px">🧭 Quel outil pour <em>ma tâche ?</em></h2>
+  <select id="taskSel">
+    <option value="">— Choisissez une tâche —</option>
+    <option value="0">Rédiger un courrier, un rapport, une annonce</option>
+    <option value="1">Résumer un long document</option>
+    <option value="2">Trouver une information récente avec ses sources</option>
+    <option value="3">Travailler dans Word, Excel ou Outlook</option>
+    <option value="4">Travailler dans Gmail ou Google Docs</option>
+    <option value="5">Réviser un cours ou préparer un examen</option>
+    <option value="6">Poser une question rapide sur mon téléphone</option>
+    <option value="7">Analyser un tableau de chiffres</option>
+  </select>
+  <div id="taskOut"></div>
+</section>
+
+<!-- 2 -->
+<section class="mod" data-t="L'art du prompt">
+  <span class="tag">Module 2</span>
+  <h2>Un bon prompt = <em>un bon briefing</em></h2>
+  <p class="lead">L'IA ne connaît ni votre métier, ni votre public, ni votre contexte malien. Plus vous briefez, meilleure est la réponse.</p>
+  <div class="grid">
+    <div class="card"><h3>🎭 R — Rôle</h3><p>« Agis comme un conseiller en communication… »</p></div>
+    <div class="card"><h3>🎯 O — Objectif</h3><p>« Rédige une annonce pour recruter un comptable… »</p></div>
+    <div class="card"><h3>🌍 C — Contexte</h3><p>« PME de 15 salariés à Bamako, public : jeunes diplômés… »</p></div>
+    <div class="card"><h3>📐 F — Format</h3><p>« 150 mots maximum, 3 puces, ton chaleureux… »</p></div>
+    <div class="card"><h3>🧩 E — Exemple</h3><p>« Voici une annonce que j'aime : … »</p></div>
+    <div class="card y"><h3>🔒 + S — Sécurité</h3><p>Relire : aucune donnée rouge, les données orange sont remplacées par des étiquettes.</p></div>
+  </div>
+  <div class="cmp">
+    <div class="card r"><h3>❌ Prompt faible</h3><div class="code">Écris une lettre pour un client qui ne paie pas.</div><p class="hint">Résultat : lettre générique, ton inadapté, à tout réécrire.</p></div>
+    <div class="card g"><h3>✅ Prompt efficace et sûr</h3><div class="code">Agis comme un gestionnaire de recouvrement courtois mais ferme.
+Rédige une lettre de relance pour [CLIENT], qui doit [MONTANT] à notre quincaillerie depuis 3 mois.
+Contexte : client fidèle depuis 5 ans, nous voulons garder la relation.
+Format : 1 page, 3 paragraphes, proposition d'un échéancier.
+Pose-moi des questions si une information manque.</div></div>
+  </div>
+  <h3>✋ Exercice : quel prompt donnera le meilleur résultat ?</h3>
+  <div class="q"><p><b>Tâche :</b> préparer une présentation pour sensibiliser des parents d'élèves au harcèlement en ligne.</p><div class="opts">
+    <button class="opt" data-v="bad" data-fb="Trop vague : pas de public, pas de format, pas de contexte.">A. « Fais une présentation sur le harcèlement en ligne. »</button>
+    <button class="opt" data-v="good" data-fb="Excellent : rôle, public, contexte local, format et durée sont clairs.">B. « Agis comme un formateur en éducation numérique. Prépare le plan d'une présentation de 20 minutes pour des parents d'élèves à Bamako, peu familiers des réseaux sociaux. 8 diapositives, langage simple, exemples WhatsApp et TikTok, et 3 conseils pratiques à la fin. »</button>
+    <button class="opt" data-v="mid" data-fb="Le contexte est bon, mais les noms des élèves victimes sont des données sensibles (mineurs !). À retirer absolument.">C. « Fais une présentation pour les parents de l'école X sur le harcèlement subi par les élèves Awa K. et Oumar D. »</button>
+  </div><div class="fb"></div></div>
+</section>
+
+<!-- 3 -->
+<section class="mod" data-t="Atelier : prompt sécurisé">
+  <span class="tag">Module 3 · Atelier</span>
+  <h2>Construisez votre prompt <em>et scannez-le</em></h2>
+  <p>Remplissez les champs : le prompt se construit tout seul et un scanner détecte les données sensibles.</p>
+  <div class="two">
+    <div>
+      <label>🎭 Rôle de l'IA</label>
+      <input type="text" id="bRole" value="un assistant administratif expérimenté">
+      <label>🎯 Objectif</label>
+      <textarea id="bObj">Rédiger une note d'information au personnel sur la nouvelle procédure de congés.</textarea>
+      <label>🌍 Contexte</label>
+      <textarea id="bCtx">Notre ONG compte 25 agents à Bamako et Ségou. La demande doit désormais être faite 15 jours à l'avance auprès de Mariam Coulibaly (tél. 76 00 00 03).</textarea>
+      <label>📐 Format</label>
+      <select id="bFmt"><option>Une note d'une page, avec titre et 3 paragraphes</option><option>Une liste à puces</option><option>Un tableau</option><option>Un message WhatsApp court</option><option>Un e-mail professionnel</option></select>
+      <label>🗣️ Ton</label>
+      <select id="bTon"><option>professionnel et bienveillant</option><option>formel</option><option>simple et accessible</option><option>chaleureux</option></select>
+    </div>
+    <div>
+      <h3>🔒 Scanner de sécurité</h3>
+      <div id="riskBox" class="risk v"></div>
+      <h3 style="margin-top:14px">📋 Votre prompt</h3>
+      <div class="out" id="bOut"></div>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn b" id="bAnon">🛡️ Anonymiser</button>
+        <button class="btn" id="bCopy">📋 Copier</button>
+      </div>
+      <p class="hint" style="margin-top:8px">Astuce : après l'anonymisation, collez le prompt dans l'IA, puis remplacez vous-même les étiquettes [PERSONNE_1], [TEL_1]… dans le texte final.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="mod" data-t="Techniques avancées">
+  <span class="tag">Module 4</span>
+  <h2>7 techniques <em>qui changent tout</em></h2>
+  <div class="grid">
+    <div class="card"><h3>1. Faire poser des questions</h3><div class="code">Avant de répondre, pose-moi les 5 questions dont tu as besoin.</div></div>
+    <div class="card"><h3>2. Itérer</h3><p>La première réponse est un brouillon. Affinez : « plus court », « plus formel », « ajoute un exemple malien ».</p></div>
+    <div class="card"><h3>3. Découper</h3><p>Pour un gros travail : d'abord le plan, puis chaque partie, une par une.</p></div>
+    <div class="card"><h3>4. Donner un modèle</h3><div class="code">Voici un exemple du style attendu : […]</div></div>
+    <div class="card"><h3>5. Faire critiquer</h3><div class="code">Relis ta réponse comme un inspecteur exigeant et liste ses faiblesses.</div></div>
+    <div class="card"><h3>6. Exiger les incertitudes</h3><div class="code">Indique ce dont tu n'es pas sûr et ce que je dois vérifier.</div></div>
+    <div class="card"><h3>7. Demander la méthode, pas les données</h3><div class="code">Donne-moi la formule Excel pour calculer une prime de 5 % sur la colonne C.</div><p class="hint">Au lieu de coller le fichier des salaires !</p></div>
+  </div>
+  <div class="callout">💡 Technique 7 = <b>productivité + sécurité</b> : l'IA vous apprend à faire, vos données ne quittent jamais votre ordinateur.</div>
+  <h3>Et avec les fichiers ?</h3>
+  <table>
+    <tr><th>Avant d'envoyer un fichier…</th><th>Pourquoi</th></tr>
+    <tr><td>Supprimer les colonnes inutiles (noms, téléphones, NINA)</td><td>L'IA n'en a pas besoin pour analyser des tendances.</td></tr>
+    <tr><td>Remplacer les noms par des codes (Employé_01…)</td><td>Le tableau reste analysable, les personnes protégées.</td></tr>
+    <tr><td>Vérifier les métadonnées et onglets cachés</td><td>Un onglet masqué peut contenir des données sensibles.</td></tr>
+    <tr><td>Enlever les commentaires et l'historique de révisions (Word)</td><td>Ils contiennent souvent des noms et des remarques internes.</td></tr>
+  </table>
+</section>
+
+<!-- 5 -->
+<section class="mod" data-t="Régler la confidentialité">
+  <span class="tag">Module 5</span>
+  <h2>Réglez vos outils <em>maintenant</em></h2>
+  <p>Cochez chaque réglage au fur et à mesure que vous le faites sur votre téléphone ou votre ordinateur.</p>
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-p="0">💬 ChatGPT</button>
+    <button class="tab" data-p="1">📚 Claude</button>
+    <button class="tab" data-p="2">🔷 Gemini</button>
+    <button class="tab" data-p="3">🟢 Meta AI / WhatsApp</button>
+    <button class="tab" data-p="4">🧰 Autres outils</button>
+  </div>
+  <div class="pane on"><div class="pbar"><div></div></div><ul class="chk">
+    <li><input type="checkbox"><div><b>Désactiver l'entraînement</b><small>Paramètres › Contrôles des données › désactiver « Améliorer le modèle pour tout le monde ». Vos nouvelles conversations ne servent plus à entraîner les modèles.</small></div></li>
+    <li><input type="checkbox"><div><b>Utiliser le « Chat temporaire » pour les sujets sensibles</b><small>Il n'apparaît pas dans l'historique, ne crée pas de mémoire et n'est pas utilisé pour l'entraînement (conservé jusqu'à 30 jours pour la sécurité).</small></div></li>
+    <li><input type="checkbox"><div><b>Vérifier la mémoire</b><small>Paramètres › Personnalisation : consultez ce que ChatGPT a retenu sur vous et supprimez le superflu.</small></div></li>
+    <li><input type="checkbox"><div><b>Révoquer les liens partagés inutiles</b><small>Contrôles des données › Liens partagés.</small></div></li>
+    <li><input type="checkbox"><div><b>Activer l'authentification multifacteur</b><small>Paramètres › Sécurité.</small></div></li>
+  </ul><p class="hint">🏢 Les offres ChatGPT Business, Enterprise, Edu et l'API ne sont pas utilisées pour l'entraînement par défaut.</p></div>
+  <div class="pane"><div class="pbar"><div></div></div><ul class="chk">
+    <li><input type="checkbox"><div><b>Vérifier le réglage d'entraînement</b><small>Paramètres › Confidentialité › désactiver « Aider à améliorer Claude » si vous ne voulez pas que vos conversations servent à l'entraînement. Activé : conservation jusqu'à 5 ans. Désactivé : 30 jours.</small></div></li>
+    <li><input type="checkbox"><div><b>Utiliser le mode incognito</b><small>Icône fantôme en haut de la conversation : ces conversations ne sont jamais utilisées pour l'entraînement, quel que soit votre réglage.</small></div></li>
+    <li><input type="checkbox"><div><b>Supprimer les conversations sensibles</b><small>Une conversation supprimée disparaît de l'historique puis des serveurs sous 30 jours.</small></div></li>
+    <li><input type="checkbox"><div><b>Contrôler les connecteurs</b><small>Paramètres › Connecteurs : retirez les accès (Gmail, Drive…) que vous n'utilisez plus.</small></div></li>
+    <li><input type="checkbox"><div><b>Privilégier un compte professionnel pour le travail</b><small>Les offres Claude pour les entreprises (Team, Enterprise) et l'API ne sont pas utilisées pour l'entraînement par défaut.</small></div></li>
+  </ul></div>
+  <div class="pane"><div class="pbar"><div></div></div><ul class="chk">
+    <li><input type="checkbox"><div><b>Désactiver « Conserver l'activité »</b><small>Sur myactivity.google.com/product/gemini (anciennement « Activité dans les applis Gemini »). Désactivé : conversations gardées 72 h seulement et non utilisées pour l'entraînement.</small></div></li>
+    <li><input type="checkbox"><div><b>Sinon, réduire la durée de conservation</b><small>Suppression automatique : 18 mois par défaut, choisissez 3 mois.</small></div></li>
+    <li><input type="checkbox"><div><b>Savoir que des humains peuvent lire</b><small>Activité activée : un échantillon de conversations peut être relu par des évaluateurs, et conservé jusqu'à 3 ans même si vous supprimez votre activité.</small></div></li>
+    <li><input type="checkbox"><div><b>Utiliser le « Chat temporaire »</b><small>Bouton à côté de « Nouveau chat » : pas d'historique, pas d'entraînement.</small></div></li>
+    <li><input type="checkbox"><div><b>Sécuriser le compte Google</b><small>Activez la validation en deux étapes. Avec un compte Google Workspace professionnel, les données ne servent pas à l'entraînement par défaut.</small></div></li>
+  </ul></div>
+  <div class="pane"><div class="pbar"><div></div></div><ul class="chk">
+    <li><input type="checkbox"><div><b>Comprendre la différence</b><small>Vos discussions WhatsApp entre personnes restent chiffrées de bout en bout. Ce que vous écrivez à Meta AI, en revanche, est traité par Meta.</small></div></li>
+    <li><input type="checkbox"><div><b>Aucune donnée personnelle ou professionnelle à Meta AI</b><small>Réservez-le aux questions générales : une recette, une idée, une traduction simple.</small></div></li>
+    <li><input type="checkbox"><div><b>Prudence dans les groupes</b><small>Mentionner Meta AI dans un groupe lui transmet le message concerné : évitez-le dans les groupes de travail ou familiaux sensibles.</small></div></li>
+    <li><input type="checkbox"><div><b>Activer la vérification en deux étapes WhatsApp</b><small>Paramètres › Compte › Vérification en deux étapes : un code PIN protège votre compte contre le vol de numéro.</small></div></li>
+    <li><input type="checkbox"><div><b>Ne jamais partager un code reçu par SMS</b><small>Arnaque très courante : « Je t'ai envoyé un code par erreur, renvoie-le moi. »</small></div></li>
+  </ul></div>
+  <div class="pane"><div class="pbar"><div></div></div><ul class="chk">
+    <li><input type="checkbox"><div><b>Copilot : se connecter avec son compte pro</b><small>Avec un compte Microsoft 365 professionnel, vous bénéficiez des protections de données de l'entreprise. Avec un compte personnel, vérifiez les paramètres de confidentialité.</small></div></li>
+    <li><input type="checkbox"><div><b>Perplexity : vérifier la rétention des données</b><small>Dans les paramètres, désactivez l'option de conservation des données pour l'IA (le nom peut varier).</small></div></li>
+    <li><input type="checkbox"><div><b>NotebookLM : n'importer que des documents verts ou anonymisés</b><small>Idéal pour des cours, rapports publics, textes de loi.</small></div></li>
+    <li><input type="checkbox"><div><b>Le Chat (Mistral) : contrôler l'usage des données</b><small>Vérifiez dans les paramètres si vos conversations peuvent servir à l'entraînement.</small></div></li>
+    <li><input type="checkbox"><div><b>Méfiance face aux fausses applis</b><small>Téléchargez uniquement les applications officielles. Une appli « ChatGPT Pro gratuit » d'un éditeur inconnu est suspecte.</small></div></li>
+  </ul></div>
+  <div class="callout">⚠️ Désactiver l'entraînement <b>n'efface pas le passé</b> et ne rend pas l'outil « confidentiel ». Les données rouges restent interdites, quels que soient les réglages.</div>
+</section>
+
+<!-- 6 -->
+<section class="mod" data-t="Vérifier les réponses">
+  <span class="tag">Module 6</span>
+  <h2>Chasse aux <em>hallucinations</em></h2>
+  <p>Voici une réponse d'IA (fictive, créée pour l'exercice). <b>Cliquez sur chaque phrase</b> pour savoir si elle est fiable ou suspecte. <span class="score" id="hScore">0 / 5</span></p>
+  <div class="answer">
+    <span class="sent" data-k="ok" data-x="✅ Exact : c'est bien la loi malienne de référence. Mais vérifiez toujours sur le texte officiel.">Au Mali, la protection des données personnelles est encadrée par la loi n°2013-015 du 21 mai 2013.</span>
+    <span class="sent" data-k="ko" data-x="🚩 Numéro d'article et montant très précis, sans source : piège classique. Ici, c'est inventé pour l'exercice.">Selon l'article 147 de cette loi, toute fuite de données est punie d'une amende de 500 millions de FCFA.</span>
+    <span class="sent" data-k="ko" data-x="🚩 Statistique précise attribuée à une étude introuvable : demandez la référence et cherchez-la vous-même.">Une étude de l'Université de Bamako publiée en 2024 montre que 87 % des PME maliennes ont déjà subi une fuite.</span>
+    <span class="sent" data-k="ko" data-x="🚩 Auteur et ouvrage inventés. Les IA fabriquent souvent de fausses citations très crédibles.">Comme l'écrit le Pr. Sidiki Konaté dans « Data et Sahel » (2023) : « Protéger la donnée, c'est protéger la nation. »</span>
+    <span class="sent" data-k="ok" data-x="✅ Conseil de bon sens, conforme aux bonnes pratiques de sécurité.">Il est donc recommandé de limiter la collecte aux données strictement nécessaires.</span>
+  </div>
+  <ul class="hl" id="hList"></ul>
+  <div class="grid">
+    <div class="card y"><h3>🚩 Signaux d'alerte</h3><ul><li>Chiffres très précis sans source</li><li>Numéros d'articles de loi</li><li>Citations et auteurs</li><li>Dates et noms d'études</li></ul></div>
+    <div class="card g"><h3>✅ Réflexes de vérification</h3><ul><li>Demander : « Donne-moi tes sources »</li><li>Ouvrir et lire la source</li><li>Comparer avec un 2ᵉ outil (Perplexity…)</li><li>Consulter un expert pour le juridique, médical et financier</li></ul></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="mod" data-t="Cas pratiques par métier">
+  <span class="tag">Module 7</span>
+  <h2>Des prompts prêts à l'emploi <em>pour votre métier</em></h2>
+  <div class="lib" id="lib"></div>
+</section>
+
+<!-- 8 -->
+<section class="mod" data-t="Quiz et mémo">
+  <span class="tag">Module 8</span>
+  <h2>Quiz final <span class="score" id="qScore">0 / 6</span></h2>
+  <div class="grid" id="quiz">
+    <div class="q"><h3>1. Pour réviser un cours à partir de mes propres notes, l'outil le plus adapté est…</h3><div class="opts">
+      <button class="opt" data-v="good" data-fb="Oui : NotebookLM répond à partir de vos documents uniquement.">NotebookLM</button>
+      <button class="opt" data-v="bad" data-fb="Meta AI n'est pas conçu pour travailler sur vos documents.">Meta AI dans WhatsApp</button></div><div class="fb"></div></div>
+    <div class="q"><h3>2. Quel élément manque le plus souvent dans un prompt faible ?</h3><div class="opts">
+      <button class="opt" data-v="bad" data-fb="La politesse ne change pas grand-chose au résultat.">La politesse</button>
+      <button class="opt" data-v="good" data-fb="Exact : sans contexte, l'IA donne une réponse générique.">Le contexte</button></div><div class="fb"></div></div>
+    <div class="q"><h3>3. Je dois calculer des primes sur un fichier de salaires. Je…</h3><div class="opts">
+      <button class="opt" data-v="bad" data-fb="Données rouges envoyées à l'extérieur !">Colle le fichier dans l'IA</button>
+      <button class="opt" data-v="good" data-fb="Parfait : l'IA donne la méthode, les données restent chez vous.">Demande la formule Excel et l'applique moi-même</button></div><div class="fb"></div></div>
+    <div class="q"><h3>4. Le « chat temporaire » / « incognito »…</h3><div class="opts">
+      <button class="opt" data-v="bad" data-fb="Non : il réduit l'exposition, mais les données passent par les serveurs et peuvent être gardées quelques jours.">Rend l'outil totalement confidentiel</button>
+      <button class="opt" data-v="good" data-fb="Oui : utile, mais pas une autorisation pour les données rouges.">N'alimente pas l'entraînement, mais reste une conservation temporaire</button></div><div class="fb"></div></div>
+    <div class="q"><h3>5. L'IA cite « l'article 147 de la loi » avec une amende précise. Je…</h3><div class="opts">
+      <button class="opt" data-v="good" data-fb="Bon réflexe : les articles et montants précis sont des zones à haut risque d'hallucination.">Vérifie dans le texte officiel</button>
+      <button class="opt" data-v="bad" data-fb="Risqué : l'IA peut inventer des articles de loi.">Le reprends tel quel dans mon rapport</button></div><div class="fb"></div></div>
+    <div class="q"><h3>6. Pour un usage professionnel régulier, le mieux est…</h3><div class="opts">
+      <button class="opt" data-v="good" data-fb="Oui : les offres professionnelles excluent l'entraînement par défaut et offrent un cadre contractuel.">Un compte professionnel ou entreprise</button>
+      <button class="opt" data-v="bad" data-fb="Un compte personnel gratuit offre le moins de garanties.">Le compte gratuit personnel d'un collègue</button></div><div class="fb"></div></div>
+  </div>
+  <h2 style="margin-top:14px">📌 Mémo : <em>les 10 commandements</em></h2>
+  <ol class="memo">
+    <li><b>Choisir</b> l'outil adapté à la tâche.</li>
+    <li><b>Briefer</b> avec la méthode R-O-C-F-E + Sécurité.</li>
+    <li><b>Classer</b> ses données : vert, orange, rouge.</li>
+    <li><b>Anonymiser</b> avec des étiquettes [NOM], [MONTANT].</li>
+    <li><b>Demander la méthode</b> plutôt que d'envoyer les données.</li>
+    <li><b>Régler</b> la confidentialité de chaque outil, une fois pour toutes.</li>
+    <li><b>Utiliser</b> le mode temporaire ou incognito pour les sujets délicats.</li>
+    <li><b>Vérifier</b> chiffres, lois, citations et sources.</li>
+    <li><b>Sécuriser</b> ses comptes avec la double authentification.</li>
+    <li><b>Assumer</b> : l'IA propose, c'est vous qui signez.</li>
+  </ol>
+</section>
+
+<div class="navbtns"><button class="btn b" id="prev">◀ Précédent</button><button class="btn" id="next">Suivant ▶</button></div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const mods=[...document.querySelectorAll('.mod')];let cur=0;const seen=new Set();
+const nav=document.getElementById('nav');
+mods.forEach((m,i)=>{const b=document.createElement('button');b.innerHTML='<span class="num">'+i+'</span>'+m.dataset.t;b.onclick=()=>go(i);nav.appendChild(b)});
+function go(i){cur=Math.max(0,Math.min(mods.length-1,i));seen.add(cur);
+  mods.forEach((m,k)=>m.classList.toggle('on',k===cur));
+  [...nav.children].forEach((b,k)=>{b.classList.toggle('on',k===cur);b.classList.toggle('done',seen.has(k)&&k!==cur)});
+  const d=seen.size-1;document.getElementById('gtxt').textContent=Math.min(d,mods.length-1)+' / '+(mods.length-1)+' modules';
+  document.getElementById('gbar').style.width=(d/(mods.length-1)*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'})}
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+
+/* quel outil */
+const tasks=[
+ ['ChatGPT, Claude, Gemini ou Le Chat','Tous excellents. Donnez un rôle, un public et un format.','Remplacez noms et montants par des étiquettes.'],
+ ['Claude ou NotebookLM','Très bons sur les longs documents. Demandez un résumé structuré et les points à vérifier.','Seulement des documents verts ou anonymisés.'],
+ ['Perplexity (ou la recherche web de ChatGPT / Gemini)','Les sources sont citées : ouvrez-les pour vérifier.','Vérifiez la date et la fiabilité de chaque source.'],
+ ['Microsoft Copilot','Directement dans vos fichiers Office.','Connectez-vous avec votre compte professionnel.'],
+ ['Gemini','Intégré à Gmail, Docs et Drive.','Privilégiez un compte Google Workspace professionnel.'],
+ ['NotebookLM','Importez vos notes et demandez des fiches, des quiz ou un résumé audio.','Vos notes de cours sont généralement vertes : aucun souci.'],
+ ['L\'application mobile de votre assistant, ou Meta AI pour les questions générales','Pratique pour une idée, une définition, une traduction.','Aucune donnée personnelle dans Meta AI.'],
+ ['ChatGPT ou Claude','Ils analysent des tableaux, calculent et font des graphiques.','Supprimez ou codez les colonnes nominatives avant l\'envoi.']];
+document.getElementById('taskSel').onchange=e=>{const v=e.target.value,o=document.getElementById('taskOut');
+  if(v===''){o.innerHTML='';return}const t=tasks[v];
+  o.innerHTML='<div class="card g"><h3>👉 '+esc(t[0])+'</h3><p>'+esc(t[1])+'</p><p style="margin-top:6px">🔒 <b>Sécurité :</b> '+esc(t[2])+'</p></div>'};
+
+/* quiz générique */
+document.querySelectorAll('.q').forEach(q=>{const fb=q.querySelector('.fb');
+  q.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
+    q.querySelectorAll('.opt').forEach(x=>x.classList.remove('good','bad','mid'));o.classList.add(o.dataset.v);
+    fb.className='fb show '+o.dataset.v;fb.textContent=(o.dataset.v==='good'?'✅ ':o.dataset.v==='mid'?'⚠️ ':'❌ ')+o.dataset.fb;
+    if(q.closest('#quiz')&&!q.dataset.d){q.dataset.d=o.dataset.v;
+      const qs=[...document.querySelectorAll('#quiz .q')];
+      document.getElementById('qScore').textContent=qs.filter(x=>x.dataset.d==='good').length+' / '+qs.length}
+  })});
+
+/* constructeur + scanner */
+const ids=['bRole','bObj','bCtx','bFmt','bTon'];let anonMode=false;
+function anonymize(t){const c={e:0,t:0,m:0};
+  t=t.replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g,()=>'[EMAIL_'+(++c.e)+']');
+  t=t.replace(/NINA\s*:?\s*[A-Z0-9]{6,}/gi,'NINA [IDENTIFIANT]');
+  t=t.replace(/\b\d{1,3}(?:[ .\u00a0]\d{3})+\s?(?:FCFA|F\s?CFA|XOF)|\b\d+\s?(?:FCFA|XOF)/gi,()=>'[MONTANT_'+(++c.m)+']');
+  t=t.replace(/(?:\+?223[\s.-]?)?\b\d{2}(?:[\s.-]?\d{2}){3}\b/g,()=>'[TEL_'+(++c.t)+']');
+  let p=0;t=t.replace(/\b(?:M\.|Mme|Mlle|Dr)?\s?[A-ZÀ-Ý][a-zà-ÿ]+\s(?:[A-ZÀ-Ý][a-zà-ÿ]+|[A-Z]{2,})\b/g,(m)=>{
+    if(/^(Notre|Nous|La|Le|Les|Un|Une|Au|Aux|Si|Pose)\b/.test(m.trim()))return m;return ' [PERSONNE_'+(++p)+']'});
+  return t.replace(/\s{2,}/g,' ')}
+function scan(t){const r=[];let lvl='v';
+  if(/[\w.+-]+@[\w-]+\.[\w.]+/.test(t)){r.push('adresse e-mail');lvl='r'}
+  if(/(?:\+?223[\s.-]?)?\b\d{2}(?:[\s.-]?\d{2}){3}\b/.test(t)){r.push('numéro de téléphone');lvl='r'}
+  if(/NINA|carte d'identit|passeport/i.test(t)){r.push('identifiant officiel');lvl='r'}
+  if(/mot de passe|code secret|code pin|\bIBAN\b|\bRIB\b|numéro de compte/i.test(t)){r.push('identifiant de sécurité ou bancaire');lvl='r'}
+  if(/dossier médical|diagnostic|séropositi|maladie de/i.test(t)){r.push('donnée de santé');lvl='r'}
+  if(/\d[\d\s.]*\s?(FCFA|XOF)/i.test(t)){r.push('montant financier');if(lvl==='v')lvl='o'}
+  if(/salaire|licenciement|sanction|confidentiel|stratégi/i.test(t)){r.push('sujet interne sensible');if(lvl==='v')lvl='o'}
+  if(/\b[A-ZÀ-Ý][a-zà-ÿ]+\s(?:Coulibaly|Traoré|Diarra|Keïta|Kéita|Konaté|Touré|Sidibé|Sangaré|Cissé|Diallo|Dembélé|Sissoko|Maïga|Doumbia|Camara|Koné|Sanogo|Kanté|Bah)\b/.test(t)){r.push('nom de personne');lvl='r'}
+  return {r,lvl}}
+function build(){const g=id=>document.getElementById(id).value.trim();
+  let p='Agis comme '+g('bRole')+'.\nObjectif : '+g('bObj')+'\nContexte : '+g('bCtx')+'\nFormat attendu : '+g('bFmt')+'.\nTon : '+g('bTon')+'.\nSi une information te manque, pose-moi des questions avant de répondre, et signale ce que je dois vérifier.';
+  if(anonMode)p=anonymize(p);
+  document.getElementById('bOut').innerHTML=esc(p).replace(/\[[A-Z_0-9]+\]/g,m=>'<span class="ph">'+m+'</span>');
+  const s=scan(p),box=document.getElementById('riskBox');box.className='risk '+s.lvl;
+  box.innerHTML=s.lvl==='v'?'🟢 Aucun élément sensible détecté. Relisez quand même !':
+    (s.lvl==='o'?'🟠 Prudence : ':'🔴 Données sensibles : ')+s.r.join(', ')+(s.lvl==='r'?'. Anonymisez avant d\'envoyer.':'. Vérifiez que c\'est nécessaire.');
+  return p}
+ids.forEach(i=>document.getElementById(i).addEventListener('input',()=>{anonMode=false;build()}));
+ids.forEach(i=>document.getElementById(i).addEventListener('change',()=>{anonMode=false;build()}));
+document.getElementById('bAnon').onclick=()=>{anonMode=true;build();toast('🛡️ Prompt anonymisé')};
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('📋 Copié !')).catch(()=>{
+  const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('📋 Copié !')}catch(e){toast('Sélectionnez le texte pour le copier')}ta.remove()})}
+document.getElementById('bCopy').onclick=()=>copy(build());
+build();
+
+/* réglages */
+const tabs=[...document.querySelectorAll('.tab')],panes=[...document.querySelectorAll('.pane')];
+tabs.forEach(t=>t.onclick=()=>{tabs.forEach(x=>x.classList.toggle('on',x===t));panes.forEach((p,i)=>p.classList.toggle('on',i==t.dataset.p))});
+panes.forEach(p=>{const lis=[...p.querySelectorAll('li')];
+  const upd=()=>{const n=lis.filter(l=>l.querySelector('input').checked).length;lis.forEach(l=>l.classList.toggle('ok',l.querySelector('input').checked));
+    p.querySelector('.pbar div').style.width=(n/lis.length*100)+'%';if(n===lis.length)toast('🏆 Outil sécurisé !')};
+  lis.forEach(l=>{const cb=l.querySelector('input');l.onclick=e=>{if(e.target!==cb)cb.checked=!cb.checked;upd()}})});
+
+/* hallucinations */
+let hs=0;document.querySelectorAll('.sent').forEach(s=>s.onclick=()=>{if(s.dataset.done)return;s.dataset.done=1;
+  s.classList.add(s.dataset.k);hs++;const li=document.createElement('li');li.textContent=s.dataset.x;
+  li.style.borderLeftColor=s.dataset.k==='ok'?'var(--good)':'var(--bad)';document.getElementById('hList').appendChild(li);
+  document.getElementById('hScore').textContent=hs+' / 5'});
+
+/* bibliothèque */
+const lib=[
+ ['👩🏾‍🏫 Enseignant','Agis comme un conseiller pédagogique. Crée 10 questions à choix multiples sur la photosynthèse pour une classe de 7e année au Mali, avec le corrigé et une courte explication pour chaque réponse. Utilise des exemples de plantes locales (karité, mil, baobab).','Ne mettez jamais les noms, notes ou difficultés d\'élèves identifiables.'],
+ ['🛍️ Commerçant','Agis comme un spécialiste du marketing sur WhatsApp. Rédige 3 annonces courtes (moins de 60 mots) pour promouvoir [PRODUIT] à [PRIX] FCFA dans ma boutique de [QUARTIER]. Ton chaleureux, avec un appel à l\'action. Propose une version en français simple.','Les infos publiques (prix affichés, horaires) sont vertes. Jamais la liste de vos clients.'],
+ ['📊 Comptable','J\'ai un tableau Excel : colonne A = code employé, colonne B = salaire de base, colonne C = nombre de jours d\'absence. Donne-moi la formule pour calculer une prime de 5 % du salaire, supprimée si plus de 3 jours d\'absence. Explique chaque partie de la formule.','On décrit la structure du fichier, on n\'envoie jamais les salaires réels.'],
+ ['🏛️ Agent administratif','Agis comme un rédacteur administratif. Rédige une note de service informant le personnel que les horaires d\'ouverture passent à 7h30–15h30 à partir du [DATE]. Ton formel, une page, avec l\'objet, le rappel du motif et les contacts du service.','Les noms des responsables peuvent être ajoutés à la main dans Word après génération.'],
+ ['🎓 Étudiant','Explique-moi la notion de TVA comme à un débutant, avec un exemple d\'achat au marché de Bamako. Ensuite, pose-moi 5 questions pour vérifier que j\'ai compris, une par une, et corrige mes réponses.','Utilisez l\'IA pour apprendre, pas pour rendre un devoir fait par elle : citez son usage si on vous le demande.'],
+ ['🌾 Agriculteur / ONG rurale','Mes plants de mil ont des feuilles jaunies avec des taches brunes, en pleine saison des pluies dans la région de Ségou. Quelles sont les causes possibles ? Quelles questions dois-je poser à l\'agent technique de l\'agriculture pour confirmer ?','L\'IA aide à préparer l\'échange avec un expert, elle ne le remplace pas.'],
+ ['🏥 Agent de santé','Rédige une fiche de sensibilisation d\'une page sur la prévention du paludisme pendant l\'hivernage, en langage très simple, avec 5 gestes clés et des illustrations suggérées. Public : mères de famille.','Aucune donnée de patient : les informations de santé sont toujours rouges.'],
+ ['🚀 Entrepreneur','Agis comme un consultant en création d\'entreprise au Mali. Propose le plan détaillé d\'un business plan pour un service de livraison de repas à moto à Bamako : parties, questions à me poser pour chaque partie, et risques principaux.','Ne donnez pas vos chiffres confidentiels ou ceux de partenaires dans un compte gratuit.']];
+const L=document.getElementById('lib');
+lib.forEach(([t,p,v])=>{const c=document.createElement('div');c.className='card';
+  c.innerHTML='<h3>'+t+'</h3><div class="code">'+esc(p)+'</div><div style="margin-top:8px"><button class="btn s">📋 Copier</button></div><div class="vig">🔒 '+esc(v)+'</div>';
+  c.querySelector('button').onclick=()=>copy(p);L.appendChild(c)});
+
+go(0);
+</script>
+</body>
+</html>
